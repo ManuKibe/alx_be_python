@@ -1,119 +1,67 @@
-# library_system.py
+# polymorphism_demo.py
 
-class Book:
+import math
+
+class Shape:
     """
-    Base class representing a generic book.
+    Base class for geometric shapes.
+    Defines a common interface for calculating area, which must be
+    implemented by derived classes.
+    """
+    def area(self):
+        """
+        Calculates the area of the shape.
+        This method is intended to be overridden by subclasses.
+        Raises:
+            NotImplementedError: If the method is not overridden in a derived class.
+        """
+        raise NotImplementedError("Subclasses must implement the 'area' method.")
+
+class Rectangle(Shape):
+    """
+    Derived class representing a rectangle, inheriting from Shape.
     Attributes:
-        title (str): The title of the book.
-        author (str): The author of the book.
+        length (float or int): The length of the rectangle.
+        width (float or int): The width of the rectangle.
     """
-    def __init__(self, title: str, author: str):
+    def __init__(self, length: float, width: float):
         """
-        Initializes a new Book instance.
+        Initializes a new Rectangle instance.
         Args:
-            title (str): The title of the book.
-            author (str): The author of the book.
+            length (float or int): The length of the rectangle.
+            width (float or int): The width of the rectangle.
         """
-        self.title = title
-        self.author = author
+        self.length = length
+        self.width = width
 
-    def __str__(self):
+    def area(self) -> float:
         """
-        Returns a user-friendly string representation of the Book object.
+        Overrides the area method to calculate the area of the rectangle.
+        Returns:
+            float: The area of the rectangle (length * width).
         """
-        return f"Book: {self.title} by {self.author}"
+        return self.length * self.width
 
-
-class EBook(Book):
+class Circle(Shape):
     """
-    Derived class representing an electronic book, inheriting from Book.
-    Additional Attributes:
-        file_size (int): The size of the e-book file in KB.
-    """
-    def __init__(self, title: str, author: str, file_size: int):
-        """
-        Initializes a new EBook instance.
-        Calls the base class (Book) constructor and initializes file_size.
-        Args:
-            title (str): The title of the e-book.
-            author (str): The author of the e-book.
-            file_size (int): The size of the e-book file in KB.
-        """
-        super().__init__(title, author)  # Call the constructor of the base class (Book)
-        self.file_size = file_size
-
-    def __str__(self):
-        """
-        Returns a user-friendly string representation of the EBook object,
-        including its file size.
-        """
-        # Reuse the __str__ from the base class for common attributes
-        return f"EBook: {self.title} by {self.author}, File Size: {self.file_size}KB"
-
-
-class PrintBook(Book):
-    """
-    Derived class representing a physical print book, inheriting from Book.
-    Additional Attributes:
-        page_count (int): The number of pages in the print book.
-    """
-    def __init__(self, title: str, author: str, page_count: int):
-        """
-        Initializes a new PrintBook instance.
-        Calls the base class (Book) constructor and initializes page_count.
-        Args:
-            title (str): The title of the print book.
-            author (str): The author of the print book.
-            page_count (int): The number of pages in the print book.
-        """
-        super().__init__(title, author)  # Call the constructor of the base class (Book)
-        self.page_count = page_count
-
-    def __str__(self):
-        """
-        Returns a user-friendly string representation of the PrintBook object,
-        including its page count.
-        """
-        # Reuse the __str__ from the base class for common attributes
-        return f"PrintBook: {self.title} by {self.author}, Page Count: {self.page_count}"
-
-
-class Library:
-    """
-    Represents a library that manages a collection of various types of books.
-    This class demonstrates composition, as it 'has-a' list of books.
+    Derived class representing a circle, inheriting from Shape.
     Attributes:
-        books (list): A list to store instances of Book, EBook, and PrintBook.
+        radius (float or int): The radius of the circle.
     """
-    def __init__(self):
+    def __init__(self, radius: float):
         """
-        Initializes a new Library instance with an empty list of books.
-        """
-        self.books = []
-
-    def add_book(self, book):
-        """
-        Adds a book (Book, EBook, or PrintBook instance) to the library's collection.
+        Initializes a new Circle instance.
         Args:
-            book: An instance of Book, EBook, or PrintBook.
+            radius (float or int): The radius of the circle.
         """
-        # Basic type checking to ensure only book-like objects are added
-        if isinstance(book, (Book, EBook, PrintBook)):
-            self.books.append(book)
-            # print(f"Added '{book.title}' to the library.") # Optional: for debugging
-        else:
-            print(f"Error: Cannot add an unsupported type to the library.")
+        self.radius = radius
 
-    def list_books(self):
+    def area(self) -> float:
         """
-        Prints the details of each book currently in the library.
-        Polymorphism is demonstrated here as the __str__ method of each
-        book object (Book, EBook, or PrintBook) is called appropriately.
+        Overrides the area method to calculate the area of the circle.
+        Uses math.pi for the value of pi.
+        Returns:
+            float: The area of the circle (pi * radius^2).
         """
-        if not self.books:
-            print("The library is empty.")
-            return
-
-        for book in self.books:
-            print(book) # This will automatically call the __str__ method of the respective book object
+        return math.pi * (self.radius ** 2)
 
